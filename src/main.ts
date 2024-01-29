@@ -10,6 +10,6 @@ async function bootstrap() {
   const logger = new Logger(bootstrap.name);
   const database_env = config_service.get<DatabaseConfig>('database');
   logger.debug(database_env);
-  await app.listen(Number(config_service.get('PORT')))          ;
+  await app.listen(Number(config_service.get('PORT')))           ;
 }
 bootstrap();
