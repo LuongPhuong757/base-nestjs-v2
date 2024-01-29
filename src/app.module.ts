@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { database_config } from './configs/configuration.config';
 import * as Joi from 'joi';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
 	imports: [
@@ -23,6 +24,14 @@ import * as Joi from 'joi';
 			cache: true, // <== Ở đây
 			expandVariables: true, // Option expandVariables giúp chúng ta truy cập vào một biến môi trường khác trong file env.
 		}),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+          uri: configService.get<string>('DATABASE_URI_LOCAL'),
+          dbName: configService.get<string>('DATABASE_NAME'),
+      }),
+      inject: [ConfigService],
+  }),
 	],
 	controllers: [AppController],
 	providers: [AppService],
