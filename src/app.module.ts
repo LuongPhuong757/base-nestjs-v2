@@ -24,14 +24,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 			cache: true, // <== Ở đây
 			expandVariables: true, // Option expandVariables giúp chúng ta truy cập vào một biến môi trường khác trong file env.
 		}),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-          uri: configService.get<string>('DATABASE_URI_LOCAL'),
-          dbName: configService.get<string>('DATABASE_NAME'),
-      }),
-      inject: [ConfigService],
-  }),
+		MongooseModule.forRootAsync({
+			imports: [ConfigModule],
+			useFactory: async (configService: ConfigService) => ({
+				uri: configService.get<string>('DATABASE_URI_LOCAL'),
+				dbName: configService.get<string>('DATABASE_NAME'),
+			}),
+			inject: [ConfigService],
+		}),
 	],
 	controllers: [AppController],
 	providers: [AppService],

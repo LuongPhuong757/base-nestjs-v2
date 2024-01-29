@@ -34,7 +34,7 @@ export class FlashCard extends BaseEntity {
 	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
 	user: User;
 
-    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Topic' }] })
+	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Topic' }] })
 	topics: Topic[];
 }
 
