@@ -29,9 +29,12 @@ import { UserRolesModule } from '@modules/user-roles/user-roles.module';
         ],
       },
     ]),
-    UserRolesModule
+    UserRolesModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, { provide: 'UsersRepositoryInterface', useClass: UsersRepository },],
+  providers: [
+    UsersService,
+    { provide: 'UsersRepositoryInterface', useClass: UsersRepository },
+  ],
 })
-export class UsersModule { }
+export class UsersModule {}

@@ -7,13 +7,13 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersRepository
-    extends BaseRepositoryAbstract<User>
-    implements UserRepositoryInterface
+  extends BaseRepositoryAbstract<User>
+  implements UserRepositoryInterface
 {
-    constructor(
-        @InjectModel(User.name)
-        private readonly users_repository: Model<User>,
-    ) {
-        super(users_repository);
-    }
+  constructor(
+    @InjectModel(User.name)
+    private readonly users_repository: Model<User>,
+  ) {
+    super(users_repository);
+  }
 }

@@ -7,10 +7,10 @@ import { UserRolesRepositoryInterface } from './interfaces/user-roles.interface'
 
 @Injectable()
 export class UserRolesService extends BaseServiceAbstract<UserRole> {
-	constructor(
-		@Inject('UserRolesRepositoryInterface')
-		private readonly user_roles_repository: UserRolesRepositoryInterface,
-	) {
-		super(user_roles_repository);
-	}
+  constructor(
+    @Inject('UserRolesRepositoryInterface')
+    private readonly user_roles_repository: UserRolesRepositoryInterface,
+  ) {
+    super(user_roles_repository);
+  }
 }
