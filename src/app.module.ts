@@ -33,7 +33,7 @@ import { UsersModule } from '@modules/users/users.module';
       }),
       inject: [ConfigService],
     }),
-    UsersModule
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

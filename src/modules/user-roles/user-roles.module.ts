@@ -12,7 +12,10 @@ import { UserRole, UserRoleSchema } from './entities/user-role.entity';
     ]),
   ],
   controllers: [UserRolesController],
-  providers: [UserRolesService, { provide: 'UserRolesRepositoryInterface', useClass: UserRolesRepository }],
+  providers: [
+    UserRolesService,
+    { provide: 'UserRolesRepositoryInterface', useClass: UserRolesRepository },
+  ],
   exports: [UserRolesService],
 })
-export class UserRolesModule { }
+export class UserRolesModule {}
