@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { database_config } from './configs/configuration.config';
 import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from '@modules/users/users.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],

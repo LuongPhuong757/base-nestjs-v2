@@ -130,7 +130,7 @@ export const UserSchemaFactory = (
   });
 
   user_schema.virtual('default_address').get(function (this: UserDocument) {
-    if (this.address.length) {
+    if (this.address && this.address.length) {
       return `${(this.address[0].street && ' ') || ''}${this.address[0].city} ${
         this.address[0].state
       } ${this.address[0].country}`;

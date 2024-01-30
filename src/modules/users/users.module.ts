@@ -11,6 +11,8 @@ import {
   FlashCard,
   FlashCardSchema,
 } from '@modules/flash-cards/entities/flash-card.entity';
+import { UsersRepository } from './repositories/users.repository';
+import { UserRolesModule } from '@modules/user-roles/user-roles.module';
 
 @Module({
   imports: [
@@ -27,8 +29,9 @@ import {
         ],
       },
     ]),
+    UserRolesModule
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, { provide: 'UsersRepositoryInterface', useClass: UsersRepository },],
 })
-export class UsersModule {}
+export class UsersModule { }
