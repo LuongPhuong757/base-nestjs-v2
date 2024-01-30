@@ -6,14 +6,14 @@ export type TopicDocument = HydratedDocument<Topic>;
 
 @Schema()
 export class Topic extends BaseEntity {
-	@Prop({
-		unique: true,
-		required: true,
-	})
-	name: string;
+  @Prop({
+    unique: true,
+    required: true,
+  })
+  name: string;
 
-	@Prop()
-	description: string;
+  @Prop()
+  description: string;
 }
 
 export const TopicSchema = SchemaFactory.createForClass(Topic);
