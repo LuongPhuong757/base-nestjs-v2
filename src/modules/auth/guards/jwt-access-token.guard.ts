@@ -1,0 +1,35 @@
+import { ExecutionContext, Injectable } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { AuthGuard } from '@nestjs/passport';
+import { Observable } from 'rxjs';
+import { IS_PUBLIC_KEY } from 'src/decorators/auth.decorator';
+import { TokenPayload } from '../interfaces/token.interface';
+import { UsersService } from '@modules/users/users.service';
+// import { IS_PUBLIC_KEY } from 'src/decorators/auth.decorators';
+
+@Injectable()
+export class JwtAccessTokenGuard extends AuthGuard('jwt') {
+  constructor(
+    private reflector: Reflector,
+    private users_service: UsersService,
+  ) {
+    super();
+  }
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (isPublic) {
+      return true;
+    }
+    return super.canActivate(context);
+  }
+
+  async validate(payload: TokenPayload) {
+    return await this.users_service.getUserWithRole(payload.user_id);
+    // user có dạng: user: {..., role: 'User'}
+  }
+}

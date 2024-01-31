@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BaseServiceAbstract } from '@modules/services/base/base.abstract.service';
@@ -48,4 +48,37 @@ export class UsersService extends BaseServiceAbstract<User> {
   // remove(id: number) {
   //   return `This action removes a #${id} user`;
   // }
+
+  async getUserByEmail(email: string): Promise<User> {
+    try {
+      const user = await this.users_repository.findOneByCondition({ email });
+      if (!user) {
+        throw new NotFoundException();
+      }
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async setCurrentRefreshToken(
+    id: string,
+    hashed_token: string,
+  ): Promise<void> {
+    try {
+      await this.users_repository.update(id, {
+        current_refresh_token: hashed_token,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getUserWithRole(user_id: string): Promise<User> {
+    try {
+      return await this.users_repository.getUserWithRole(user_id);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
