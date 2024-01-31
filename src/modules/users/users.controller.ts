@@ -6,12 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  SerializeOptions,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import MongooseClassSerializerInterceptor from '@modules/common/interceptors/mongoose-class-serializer.interceptor';
+import { User } from './entities/user.entity';
 
 @Controller('users')
+@UseInterceptors(MongooseClassSerializerInterceptor(User))
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -21,6 +27,9 @@ export class UsersController {
   }
 
   @Get()
+  @SerializeOptions({
+    excludePrefixes: ['first', 'last'],
+  })
   findAll() {
     return this.usersService.findAll();
   }
@@ -30,10 +39,10 @@ export class UsersController {
   //   return this.usersService.findOne(+id);
   // }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(id.toString(), updateUserDto);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {
