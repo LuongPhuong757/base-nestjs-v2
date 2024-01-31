@@ -7,8 +7,15 @@ import mongoose, { Model } from 'mongoose';
 import { FlashCardDocument } from '@modules/flash-cards/entities/flash-card.entity';
 import { CollectionDocument } from '@modules/collection/entities/collection.entity';
 import { NextFunction } from 'express';
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
 export type UserDocument = HydratedDocument<User>;
-
+export enum LANGUAGES {
+  ENGLISH = 'English',
+  FRENCH = 'French',
+  JAPANESE = 'Japanese',
+  KOREAN = 'Korean',
+  SPANISH = 'Spanish',
+}
 export enum GENDER {
   Male = 'MALE',
   Female = 'FEMALE',
@@ -23,6 +30,7 @@ export enum GENDER {
     getters: true,
   },
 })
+// @Exclude()
 export class User extends BaseEntity {
   @Prop({
     required: true,
@@ -89,6 +97,8 @@ export class User extends BaseEntity {
     type: mongoose.Schema.Types.ObjectId,
     ref: UserRole.name,
   })
+  @Type(() => UserRole)
+  @Transform((value) => value.obj.role?.name, { toClassOnly: true })
   role: UserRole;
 
   @Prop()
@@ -98,9 +108,30 @@ export class User extends BaseEntity {
   friendly_id: number;
 
   @Prop({
-    type: AddressSchema,
+    type: [
+      {
+        type: AddressSchema,
+      },
+    ],
   })
   address: Address[];
+
+  @Prop({
+    default: 'cus_mock_id',
+  })
+  @Expose()
+  stripe_customer_id: string;
+
+  @Prop({
+    type: [String],
+    enum: LANGUAGES,
+  })
+  interested_languages: LANGUAGES[];
+
+  @Expose({ name: 'full_name' })
+  get fullName(): string {
+    return `${this.first_name} ${this.last_name}`;
+  }
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
