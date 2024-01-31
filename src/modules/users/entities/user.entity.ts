@@ -72,7 +72,7 @@ export class User extends BaseEntity {
 
   @Prop({
     required: true,
-    select: false,
+    // select: false,
   })
   password: string;
 
@@ -122,9 +122,14 @@ export class User extends BaseEntity {
   @Expose()
   stripe_customer_id: string;
 
+  @Prop()
+  @Exclude()
+  current_refresh_token: string;
+
   @Prop({
     type: [String],
     enum: LANGUAGES,
+    default: [LANGUAGES.ENGLISH],
   })
   interested_languages: LANGUAGES[];
 
